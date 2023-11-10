@@ -8,15 +8,22 @@
             
             <div class="flex flex-column gap-2">
                 <label htmlFor="username">Username</label>
-                <input pInputText id="username" aria-describedby="username-help" [(ngModel)]="value" />
+                <input pInputText id="username" aria-describedby="username-help" required [(ngModel)]="email" />
             </div>
             <div class="flex flex-column gap-2">
                 <label htmlFor="password">Password</label>
-                <p-password [(ngModel)]="value" [feedback]="false"></p-password>
+                <p-password [(ngModel)]="password" [feedback]="false"></p-password>
             </div>
             <ng-template pTemplate="footer">
-                <p-button label="Login" styleClass="p-button-lg cursor-pointer" [style]="{'width':'100%'}"></p-button> <br><br>
-                <a href="">Recover password</a>
+                <p-button 
+                    label="Login" 
+                    styleClass="p-button-lg cursor-pointer" 
+                    required 
+                    [style]="{'width':'100%'}"
+                    (click)="handleLogin()"
+                >
+                </p-button> 
+                <br><br>
             </ng-template>
         </p-card>
     </div>
