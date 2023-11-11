@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,21 +14,20 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { FormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToastModule } from 'primeng/toast';
+
+
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database'
 
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBCgbnMgcKEX64l38LT17gz-bMb6xxlWzY",
-  authDomain: "tabledino-3a498.firebaseapp.com",
-  databaseURL: "https://tabledino-3a498-default-rtdb.firebaseio.com",
-  projectId: "tabledino-3a498",
-  storageBucket: "tabledino-3a498.appspot.com",
-  messagingSenderId: "123119785272",
-  appId: "1:123119785272:web:8a39b37d8e39feab275dcd"
-};
+import { environment } from 'src/environments/environment';
+import { LoadingSpinnerComponent } from './components/shared/loading-spinner/loading-spinner.component';
+import { MessageService } from 'primeng/api';
 
 
 
@@ -35,11 +35,13 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
-    AngularFireModule.initializeApp( firebaseConfig ),
+    HttpClientModule,
+    AngularFireModule.initializeApp( environment.firebaseConfig ),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
@@ -48,10 +50,13 @@ const firebaseConfig = {
     ButtonModule,
     CardModule,
     InputTextModule,
-    PasswordModule
+    PasswordModule,
+    DialogModule,
+    ProgressSpinnerModule,
+    ToastModule
 
   ],
-  providers: [],
+  providers: [ MessageService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
