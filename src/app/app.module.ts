@@ -28,6 +28,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/compat/database'
 import { environment } from 'src/environments/environment';
 import { LoadingSpinnerComponent } from './components/shared/loading-spinner/loading-spinner.component';
 import { MessageService } from 'primeng/api';
+import { UserComponent } from './components/user/user.component';
 
 
 
@@ -36,7 +37,8 @@ import { MessageService } from 'primeng/api';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
