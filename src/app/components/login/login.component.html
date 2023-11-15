@@ -8,11 +8,11 @@
             
             <div class="flex flex-column gap-2">
                 <label htmlFor="username">Username</label>
-                <input pInputText id="username" aria-describedby="username-help" required [(ngModel)]="email" />
+                <input pInputText id="username" aria-describedby="username-help" required [(ngModel)]="user.email" />
             </div>
             <div class="flex flex-column gap-2">
                 <label htmlFor="password">Password</label>
-                <p-password [(ngModel)]="password" [feedback]="false"></p-password>
+                <p-password [(ngModel)]="user.password" [feedback]="false"></p-password>
             </div>
             <ng-template pTemplate="footer">
                 <p-button 
@@ -23,9 +23,69 @@
                     (click)="handleLogin()"
                 >
                 </p-button> 
+                <p-button 
+                    icon="pi pi-user-plus" 
+                    styleClass="p-button-rounded p-button-success p-button-text cursor-pointer"
+                    (click)="toggleNewUserDialog()"
+                ></p-button>
                 <br><br>
             </ng-template>
         </p-card>
     </div>
     <div class="flex-1 flex align-items-center justify-content-center "></div>
 </div>
+
+<!-- new user dialog -->
+<p-dialog header="New User" [(visible)]="displayNewUserDialog" [style]="{width: '23rem'}">
+    
+    <div *ngIf="!newUser.isLoading">
+        <div class="flex flex-column gap-2">
+            <label htmlFor="username">Username</label>
+            <input 
+                pInputText 
+                id="newUserUsername" 
+                aria-describedby="username-help" 
+                [(ngModel)]="newUser.email" 
+                (ngModelChange)="validateNewUser()" 
+            />
+        </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="password">Password</label>
+            <p-password 
+                [(ngModel)]="newUser.password" 
+                [feedback]="false"
+                (ngModelChange)="validateNewUser()" 
+            ></p-password>
+        </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="password">Password</label>
+            <p-password 
+                [(ngModel)]="newUser.repeatPassword" 
+                [feedback]="false"
+                (ngModelChange)="validateNewUser()" 
+            ></p-password>
+        </div>
+    </div>
+    <div *ngIf="newUser.isLoading" class="spinner-center">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    
+
+    <ng-template pTemplate="footer">
+        <p-button 
+            icon="pi pi-check" 
+            (click)="handleSingUp()" 
+            label="Register" 
+            styleClass="p-button-text cursor-pointer"
+            [disabled]="!newUser.isValid"
+        ></p-button>
+        <p-button 
+            (click)="toggleNewUserDialog()" 
+            label="Cancel" 
+            styleClass="p-button-text p-button-danger cursor-pointer"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>
