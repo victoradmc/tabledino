@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Subject, catchError, throwError, tap } from 'rxjs';
+import { Subject, catchError, throwError, tap, BehaviorSubject } from 'rxjs';
 
 import { User } from '../models/user.models';
 
@@ -22,7 +22,7 @@ interface AuthResponseData {
 })
 export class AuthService {
 
-  user = new Subject<User>();
+  user = new BehaviorSubject<User>( null );
 
   constructor(
     public auth: AngularFireAuth,
@@ -65,7 +65,7 @@ export class AuthService {
 
   private handleAuthentication( email: string, userId: string, token: string, expiresIn: number ) {
     const expirationDate = new Date( 
-      new Date().getTime() + expiresIn * 1000 
+      new Date().getTime() + expiresIn * 10000
     );
 
     const user = new User ( 

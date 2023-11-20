@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +17,8 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
-
+import { MenubarModule } from 'primeng/menubar';
+import { SplitButtonModule } from 'primeng/splitbutton';
 
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -30,6 +31,17 @@ import { LoadingSpinnerComponent } from './components/shared/loading-spinner/loa
 import { MessageService } from 'primeng/api';
 import { UserComponent } from './components/user/user.component';
 
+import { DataStorageService } from './services/data-storage.service';
+import { AuthInterceptor } from './services/auth-interceptor.interceptor';
+import { HeaderComponent } from './components/header/header.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { TablesComponent } from './components/tables/tables.component';
+import { ProductsComponent } from './components/products/products.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
+import { KitchenComponent } from './components/kitchen/kitchen.component';
+import { OrdersComponent } from './components/orders/orders.component';
+
 
 
 @NgModule({
@@ -38,7 +50,15 @@ import { UserComponent } from './components/user/user.component';
     LoginComponent,
     HomeComponent,
     LoadingSpinnerComponent,
-    UserComponent
+    UserComponent,
+    HeaderComponent,
+    DashboardComponent,
+    TablesComponent,
+    ProductsComponent,
+    ReportsComponent,
+    CheckoutComponent,
+    KitchenComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -55,10 +75,18 @@ import { UserComponent } from './components/user/user.component';
     PasswordModule,
     DialogModule,
     ProgressSpinnerModule,
-    ToastModule
-
+    ToastModule,
+    MenubarModule,
+    SplitButtonModule
   ],
-  providers: [ MessageService ],
+  providers: [ 
+    MessageService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

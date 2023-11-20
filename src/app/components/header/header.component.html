@@ -1,0 +1,10 @@
+<div class="card">
+    <p-menubar [model]="items">
+        <ng-template pTemplate="start">
+            <img src="assets/dino.png" height="40" class="mr-2" />
+        </ng-template>
+        <ng-template pTemplate="end">
+            <p-splitButton label="Options" [model]="options" styleClass="p-button-text p-button-plain mr-2 mb-2"></p-splitButton>
+        </ng-template>
+    </p-menubar>
+</div>

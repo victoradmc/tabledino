@@ -1,0 +1,68 @@
+<app-header></app-header>
+<div class="container">
+    <div class="options">
+        <p-button label="Add Table" icon="pi pi-plus" styleClass="cursor-pointer" (click)="toggleNewTableDialog()" ></p-button>
+    </div>
+    <div>
+        <div *ngIf="isLoading" class="spinner-center">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
+        <div class="empty-message" *ngIf="noTables && !isLoading">
+            <h3>No tables registered!</h3>
+        </div>
+        <div class="table-list">
+            <div *ngFor="let table of tables">
+                <p-card header="Table {{ table.Number }}">
+                    Capacity: {{ table.Capacity }} | Status: {{ table.Status }}
+                </p-card>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<!-- new table dialog -->
+<p-dialog header="Add new Table" [(visible)]="displayNewTableDialog" [style]="{width: '23rem'}">
+    
+    <div *ngIf="!isLoadingNewTable">
+        <div class="flex flex-column gap-2">
+            <label htmlFor="tableNumber">Table Number</label>
+            <input 
+                pInputText 
+                id="newTableNumber" 
+                aria-describedby="newTable-help" 
+                [(ngModel)]="newTable.Number" 
+            />
+        </div>
+        <div class="flex flex-column gap-2">
+            <label htmlFor="tableCapacity">Table Capacity</label>
+            <input 
+                pInputText 
+                id="newTableCapacity" 
+                aria-describedby="newTable-help" 
+                [(ngModel)]="newTable.Capacity"
+            />
+        </div>
+    </div>
+    <div *ngIf="isLoadingNewTable" class="spinner-center">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    
+
+    <ng-template pTemplate="footer">
+        <p-button 
+            icon="pi pi-check" 
+            (click)="handleNewTable()" 
+            label="Finish" 
+            styleClass="p-button-text cursor-pointer"
+        ></p-button>
+        <p-button 
+            (click)="toggleNewTableDialog()" 
+            label="Cancel" 
+            styleClass="p-button-text p-button-danger cursor-pointer"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

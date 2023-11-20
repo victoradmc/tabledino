@@ -1,0 +1,23 @@
+.container {
+    padding: 1rem;
+}
+
+.options {
+    display: flex;
+}
+
+.table-container {
+    display: flex;
+}
+
+.empty-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
