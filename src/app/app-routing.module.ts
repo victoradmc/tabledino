@@ -9,14 +9,16 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { KitchenComponent } from './components/kitchen/kitchen.component';
 import { OrdersComponent } from './components/orders/orders.component';
 
+import { authGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'tables', component: TablesComponent },
-  { path: 'products', component: ProductsComponent },
-  { path: 'checkout', component: CheckoutComponent},
-  { path: 'orders', component: OrdersComponent },
-  { path: 'kitchen-view', component: KitchenComponent }
+  { path: 'tables', component: TablesComponent, canActivate: [authGuard] },
+  { path: 'products', component: ProductsComponent, canActivate: [authGuard] },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [authGuard] },
+  { path: 'orders', component: OrdersComponent, canActivate: [authGuard] },
+  { path: 'kitchen-view', component: KitchenComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({

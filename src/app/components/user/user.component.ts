@@ -19,8 +19,9 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.userSubscription = this.authService.user.subscribe( user => {
       this.isAuthenticated = !user ? false : true;
-      console.log( user );
     });
+
+    this.authService.autoLogin();
   }
 
   ngOnDestroy(): void {

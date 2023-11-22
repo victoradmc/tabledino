@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,6 +8,8 @@ import { MenuItem } from 'primeng/api';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+
+  constructor ( private authService: AuthService ) {}
 
   items: MenuItem[] = [
     {
@@ -46,11 +49,15 @@ export class HeaderComponent {
     },
     { label: 'About', icon: 'pi pi-info-circle', url: 'http://github.com' },
     { separator: true },
-    { label: 'Logout', icon: 'pi pi-sign-out', routerLink: ['/login'] }
-];
+    { label: 'Logout', icon: 'pi pi-sign-out', command: () => { this.onLogout() }}
+  ];
 
   ngOnInit() {
     
+  }
+
+  onLogout(): void {
+    this.authService.logout();
   }
 
 }

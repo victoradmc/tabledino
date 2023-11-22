@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Subject, catchError, throwError, tap, BehaviorSubject } from 'rxjs';
 
 import { User } from '../models/user.models';
+import { Router } from '@angular/router';
 
 
 interface AuthResponseData {
@@ -23,10 +24,12 @@ interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>( null );
+  isLoggedIn: boolean = false;
 
   constructor(
     public auth: AngularFireAuth,
-    public http: HttpClient
+    public http: HttpClient,
+    public router: Router
   ) { }
 
   signUp( email: string, password: string ) {
@@ -58,24 +61,48 @@ export class AuthService {
           response.email, 
           response.localId,
           response.idToken,
-          +response.expiresIn)
+          +response.expiresIn
+        )
       })
     );
   }
 
-  private handleAuthentication( email: string, userId: string, token: string, expiresIn: number ) {
-    const expirationDate = new Date( 
-      new Date().getTime() + expiresIn * 10000
-    );
+  logout(): void {
+    this.user.next( null );
+    this.isLoggedIn = false;
+    localStorage.removeItem('userData');
+    this.router.navigate(['/login']);
+  }
 
-    const user = new User ( 
-      email, 
-      userId,
-      token,
-      expirationDate
-    );
+  private handleAuthentication( email: string, userId: string, token: string, expiresIn: number ) {
+    const expirationDate = new Date( new Date().getTime() + expiresIn * 10000 );
+
+    const user = new User ( email, userId, token, expirationDate );
+
+    this.isLoggedIn = true;
 
     this.user.next( user );
+
+    localStorage.setItem( 'userData', JSON.stringify( user ) );
+  }
+
+  autoLogin(): void {
+    const userData: {
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExpirationDate: string
+    } = JSON.parse( localStorage.getItem('userData') );
+
+    if ( !userData ) {
+      return null;
+    }
+    const loadedUser = new User( userData.email, userData.id, userData._token, new Date( userData._tokenExpirationDate ) );
+    this.isLoggedIn = true;
+    // if ( loadedUser.token ) {
+    //   this.user.next( loadedUser );
+    // } 
+    loadedUser.token ? this.user.next( loadedUser ) : this.logout();
   }
 
   private handleError( errorResponse: HttpErrorResponse ) {

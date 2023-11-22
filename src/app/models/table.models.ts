@@ -3,6 +3,7 @@ export class Table {
       public Number: number,
       public Capacity: number,
       public Status: string,
+      public Id?: string,
     ) {}
 
     changeStatus( newStatus: string ): void {

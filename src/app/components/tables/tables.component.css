@@ -10,6 +10,19 @@
     display: flex;
 }
 
+.table-list {
+    margin-top: 1rem;
+}
+
+.table-status {
+    padding-top: 1rem;
+}
+
+.small-screen-card {
+    width: 19rem;
+    margin-left: -1rem;
+}
+
 .empty-message {
     display: flex;
     align-items: center;
@@ -20,4 +33,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.option-buttons + .option-buttons {
+    margin: 1rem;
 }

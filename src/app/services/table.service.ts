@@ -20,4 +20,11 @@ export class TableService {
       newTable
     )
   }
+
+  updateTable( table:Table, id: string ) {
+    return this.http.patch(
+      `https://tabledino-3a498-default-rtdb.firebaseio.com/tables/${ id }/.json`,
+      table
+    )
+  }
 }

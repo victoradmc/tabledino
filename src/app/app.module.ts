@@ -19,6 +19,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { MenubarModule } from 'primeng/menubar';
 import { SplitButtonModule } from 'primeng/splitbutton';
+import { TagModule } from 'primeng/tag';
+import { BadgeModule } from 'primeng/badge';
+
+
 
 
 import { AngularFireModule } from '@angular/fire/compat';
@@ -77,7 +81,9 @@ import { OrdersComponent } from './components/orders/orders.component';
     ProgressSpinnerModule,
     ToastModule,
     MenubarModule,
-    SplitButtonModule
+    SplitButtonModule,
+    TagModule,
+    BadgeModule
   ],
   providers: [ 
     MessageService,

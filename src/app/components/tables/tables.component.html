@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="container">
-    <div class="options">
+    <div class="options"  *ngIf="screenWidth > 400">
         <p-button label="Add Table" icon="pi pi-plus" styleClass="cursor-pointer" (click)="toggleNewTableDialog()" ></p-button>
     </div>
     <div>
@@ -10,15 +10,24 @@
         <div class="empty-message" *ngIf="noTables && !isLoading">
             <h3>No tables registered!</h3>
         </div>
-        <div class="table-list">
-            <div *ngFor="let table of tables">
-                <p-card header="Table {{ table.Number }}">
-                    Capacity: {{ table.Capacity }} | Status: {{ table.Status }}
+        <div class="table-list flex flex-wrap" *ngIf="!isLoading">
+            <div *ngFor="let table of tables" class="table-card flex align-items-center ml-5 mt-5">
+                <p-card class="md:min-w-min" [ngClass]="{'small-screen-card': screenWidth < 400 }">
+                    <ng-template pTemplate="header">
+                        <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="success"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Free'"></p-badge>
+                        <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="danger"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Busy'"></p-badge>
+                        <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="info"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Reserved'"></p-badge>
+                    </ng-template>
+                    Capacity: {{ table.Capacity }}
+                    <ng-template pTemplate="footer">
+                        <p-button icon="pi pi-tag" label="Status" class="option-buttons"></p-button>
+                        <p-button icon="pi pi-check-square" label="Order" class="option-buttons"></p-button>
+                        <!-- <p-button label="Edit" icon="pi pi-pencil" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }" *ngIf="screenWidth > 400"></p-button> -->
+                    </ng-template>
                 </p-card>
             </div>
         </div>
     </div>
-    
 </div>
 
 <!-- new table dialog -->
@@ -64,5 +73,9 @@
         ></p-button>
     </ng-template>
 </p-dialog>
+
+<!-- edit table dialog -->
+
+<!-- manage table dialog -->
 
 <p-toast></p-toast>
