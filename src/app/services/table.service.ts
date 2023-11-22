@@ -21,10 +21,13 @@ export class TableService {
     )
   }
 
-  updateTable( table:Table, id: string ) {
+  updateTable( table: Table, id: string ) {
+
+    const saveTable = new Table( table.Number, table.Capacity, table.Status );
+
     return this.http.patch(
       `https://tabledino-3a498-default-rtdb.firebaseio.com/tables/${ id }/.json`,
-      table
+      saveTable
     )
   }
 }

@@ -22,6 +22,8 @@ export class UserComponent implements OnInit, OnDestroy {
     });
 
     this.authService.autoLogin();
+
+    
   }
 
   ngOnDestroy(): void {

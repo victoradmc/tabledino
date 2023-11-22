@@ -12,6 +12,7 @@ export class TablesComponent implements OnInit {
 
   //config
   displayNewTableDialog: boolean = false;
+  displayStatusDialog: boolean = false;
   isLoading = false;
   isLoadingNewTable = false;
   screenWidth = 0;
@@ -19,25 +20,27 @@ export class TablesComponent implements OnInit {
   //data
   tables: Table[] = [];
   newTable: Table;
+  editStatusTable: Table;
   noTables: boolean = false;
 
-  //manage options
-  manageItems: MenuItem[] = [];
 
-  constructor( private tableService: TableService) {
+  constructor( private tableService: TableService, private messageService: MessageService ) {
 
   }
 
   ngOnInit() {
-    this.newTable = new Table( null, null, 'Free' );
+    this.newTable = new Table( null, null, 'Free', null );
+    this.editStatusTable = new Table( null, null, 'Free', null );
 
     this.loadTables();
 
     this.screenWidth = window.innerWidth;
+
+    setInterval( () => this.loadTables(), 60000 );
   }
 
   loadTables(): void {
-    this.isLoading = true;
+    this.noTables ? this.isLoading = true : null;
     this.tableService.getTables().subscribe({
       next: ( response ) => {
         if ( response == null ) {
@@ -73,6 +76,17 @@ export class TablesComponent implements OnInit {
       this.newTable.Status = null;
     }
   }
+
+  toggleStatusDialog( focusedTable?: Table ): void {
+    this.displayStatusDialog = !this.displayStatusDialog;
+
+    if ( this.displayStatusDialog ) {
+      this.editStatusTable = new Table( focusedTable.Number, focusedTable.Capacity, focusedTable.Status, focusedTable.Id );
+    } else {
+      this.editStatusTable = new Table( null, null, 'Free', null );
+    }
+
+  }
   
   handleNewTable(): void {
     this.tableService.addNewTable( this.newTable ).subscribe({
@@ -81,6 +95,18 @@ export class TablesComponent implements OnInit {
         this.toggleNewTableDialog();
       }
     });
+  }
+
+  saveStatusTable() {
+    this.tableService.updateTable( this.editStatusTable, this.editStatusTable.Id ).subscribe({
+      next: ( response ) => {
+        this.toggleStatusDialog();
+        this.loadTables();
+      },
+      error: ( error ) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error });
+      }
+    })
   }
 
 }

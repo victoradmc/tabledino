@@ -15,14 +15,13 @@
                 <p-card class="md:min-w-min" [ngClass]="{'small-screen-card': screenWidth < 400 }">
                     <ng-template pTemplate="header">
                         <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="success"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Free'"></p-badge>
-                        <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="danger"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Busy'"></p-badge>
+                        <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="danger"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Occupied'"></p-badge>
                         <p-badge value="Table {{ table.Number }} {{ table.Status }}" size="xlarge" severity="info"  class="flex align-items-center justify-content-center table-status" *ngIf="table.Status == 'Reserved'"></p-badge>
                     </ng-template>
                     Capacity: {{ table.Capacity }}
                     <ng-template pTemplate="footer">
-                        <p-button icon="pi pi-tag" label="Status" class="option-buttons"></p-button>
+                        <p-button icon="pi pi-tag" label="Status" class="option-buttons" (click)="toggleStatusDialog( table )"></p-button>
                         <p-button icon="pi pi-check-square" label="Order" class="option-buttons"></p-button>
-                        <!-- <p-button label="Edit" icon="pi pi-pencil" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }" *ngIf="screenWidth > 400"></p-button> -->
                     </ng-template>
                 </p-card>
             </div>
@@ -74,8 +73,43 @@
     </ng-template>
 </p-dialog>
 
-<!-- edit table dialog -->
+<!-- Status table dialog -->
+<p-dialog header="Change Status for Table {{ editStatusTable.Number }}" [(visible)]="displayStatusDialog" [style]="{width: '23rem'}">
+    
+    <div class="card flex justify-content-center">
+        <div class="flex flex-column gap-3">
+            <div class="field-checkbox">
+                <p-radioButton name="status" value="Free" [(ngModel)]="editStatusTable.Status" inputId="status-free"></p-radioButton>
+                <label for="status-free" class="ml-2">Free</label>
+            </div>
+            <div class="field-checkbox">
+                <p-radioButton name="status" value="Occupied" [(ngModel)]="editStatusTable.Status" inputId="status-occupied"></p-radioButton>
+                <label for="status-occupied" class="ml-2">Occupied</label>
+            </div> 
+            <div class="field-checkbox">
+                <p-radioButton name="status" value="Reserved" [(ngModel)]="editStatusTable.Status" inputId="status-reserved"></p-radioButton>
+                <label for="status-reserved" class="ml-2">Reserved</label>
+            </div>
+        </div>
+    </div>
+    
 
-<!-- manage table dialog -->
+
+    <ng-template pTemplate="footer">
+        <p-button 
+            icon="pi pi-check" 
+            (click)="saveStatusTable()" 
+            label="Save" 
+            styleClass="p-button-text cursor-pointer"
+        ></p-button>
+        <p-button 
+            (click)="toggleStatusDialog()" 
+            label="Cancel" 
+            styleClass="p-button-text p-button-danger cursor-pointer"
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<!-- Order table dialog -->
 
 <p-toast></p-toast>

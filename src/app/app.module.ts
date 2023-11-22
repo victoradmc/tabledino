@@ -21,6 +21,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 
 
@@ -83,7 +84,8 @@ import { OrdersComponent } from './components/orders/orders.component';
     MenubarModule,
     SplitButtonModule,
     TagModule,
-    BadgeModule
+    BadgeModule,
+    RadioButtonModule
   ],
   providers: [ 
     MessageService,
